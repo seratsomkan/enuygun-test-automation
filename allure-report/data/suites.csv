@@ -1,0 +1,2 @@
+"DESCRİPTİON","DURATİON İN MS","NAME","PARENT SUİTE","START TİME","STATUS","STOP TİME","SUB SUİTE","SUİTE","TEST CLASS","TEST METHOD"
+"","34796","should search hotels by location, apply filters, select accommodation and verify details","","Thu Jul 03 17:27:56 TRT 2025","passed","Thu Jul 03 17:28:31 TRT 2025","","Hotel Search Test","",""
