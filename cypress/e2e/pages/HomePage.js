@@ -1,18 +1,18 @@
-class HomePage {
-    acceptCookies(){
-        cy.get('[id="onetrust-accept-btn-handler"]').click();
-        cy.allure().step('Çerezler kabul edildi'); 
-        return this;
-    }
+import { busData } from "../../support/busReservationData";
+import Utilities from "./HelperFunctions ";
 
+class HomePage {
+    constructor() {
+        this.utilities = new Utilities;
+    }
     selectTravelOptions(travel){ 
-        switch(travel){
-            case "uçak bileti":
-                cy.contains('span','Uçak bileti').click(); 
-                break;    
+        switch(travel){   
             case "otel":
                 cy.contains('span','Otel').click();  
                 break;   
+            case "otobüs":
+                cy.contains('span','Otobüs').click(); 
+                break;     
             default:
                 console.log("Geçersiz seyahat seçimi")
                 break;      
@@ -21,7 +21,7 @@ class HomePage {
         return this;
     }
 
-    fillLocationTextBox(location){
+    fillHotelLocation(location){
         cy.wait(1000);
         cy.get("[data-testid='hotel-label']").eq(0).type(location);
         cy.wait(1000);
@@ -30,7 +30,7 @@ class HomePage {
         return this;
     } 
 
-    fillDateArea(checkinDate,checkoutDate){
+    fillHotelDateArea(checkinDate,checkoutDate){
         cy.get("[data-testid='hotel-datepicker-input']").click();
         cy.get("[data-day='"+checkinDate+"']").eq(0).click();
         cy.get("[data-day='"+checkoutDate+"']").eq(0).click();
@@ -38,7 +38,7 @@ class HomePage {
         return this;
     } 
 
-    fillGuestCountAndSearch(totalNumberOfAdult,totalNumberOfChild){
+    fillHotelGuestCountAndSearch(totalNumberOfAdult,totalNumberOfChild){
         cy.get("[data-testid='hotel-popover-button']").click();
 
         if(totalNumberOfAdult>=2){
@@ -60,11 +60,45 @@ class HomePage {
                 cy.get("[data-testid='hotel-child-select-0-"+NumberOfChild+"']").select('3');
             }
         }
-        
         cy.get("[data-testid='hotel-guest-submit-button']").click();
         cy.get("[data-testid='hotel-submit-search-button']").click();
         cy.allure().step("Misafir bilgileri girildi ve arama yapıldı.");
         return this;
     } 
+
+    setDepartureAndArrival(originLocation,destinationLocation){
+        cy.get("[name='originLocation']").type(originLocation);
+        cy.get("[data-testid='endesign-undefined-autosuggestion-option-item-0']").click();
+        cy.get("[name='destinationLocation']").type(destinationLocation);
+        cy.get("[data-testid='endesign-undefined-autosuggestion-option-item-0']").click();
+        cy.allure().step("kalkış ve varış lokasyonları seçildi.");
+        return this;
+    }
+
+    fillBusDate(date){
+        cy.get("[data-testid='undefined-datepicker-input']").click();
+        cy.get("[title='"+date+"']").click();
+        cy.wait(1500);
+        cy.allure().step("Gidiş tarihi seçildi.");
+        return this;
+    }
+
+    searchBusAndVerify(date){
+        cy.get("[id='bus-search-button']").click();
+        this.utilities.waitUntilExists("[class='search-page-sorting-wrapper_styled']");
+        
+        cy.get('strong').eq(1).invoke('text').then((originLocationResult)=>{
+            expect(busData.origin).to.equal(originLocationResult);
+        })
+
+        cy.get('strong').eq(2).invoke('text').then((destinationLocationResult)=>{
+            expect(busData.destination).to.equal(destinationLocationResult);
+        })
+        cy.get('span').eq(49).invoke('text').then((departureDateResult)=>{
+            expect(departureDateResult).to.equal(date);
+        })
+        cy.allure().step("Otobüs bileti araması yapıldı ve girilen değerlerle eşleştiği doğrulandı.");
+        return this;    
+    }  
 }
 export default HomePage;

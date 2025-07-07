@@ -10,5 +10,10 @@ class Utilities {
             console.log("Yanlış seçim.");
         }
     }
+
+    waitUntilExists(selector, timeout = 10000) {
+        cy.get(selector, { timeout: timeout }).should('exist');
+    }
+
 }
 export default Utilities;

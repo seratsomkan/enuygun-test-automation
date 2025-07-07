@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"67708eac763bcff9fd490afd8e40698a","name":"Hotel Search Test","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
+{"total":2,"items":[{"uid":"fe3bb17c72ca4c3e6255f3d964571c06","name":"Hotel Search Tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}},{"uid":"1d6f466afd876d2e0c995471b4c4ccde","name":"Bus Ticket Booking Tests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
