@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { petDeleteData, petGetData, petPostData, petPutData } from "../../support/petData";
+import { petData, petDeleteData, petGetData, petPostData, petPutData } from "../../support/petData";
 
 context('Pet Tests',() =>{
 
@@ -10,7 +10,7 @@ context('Pet Tests',() =>{
     }
 
     it('GET - /v2/pet/id GetPetInfo', () =>{
-        cy.request('GET','https://petstore.swagger.io/v2/pet/'+petGetData.id)
+        cy.request('GET',petData.baseUrl+petGetData.id)
         .then((response) =>{
             expect(response.status).to.eq(200);
             expect(response.body.id).to.eq(petGetData.id)
@@ -29,7 +29,7 @@ context('Pet Tests',() =>{
 
         cy.request({
             method: 'POST',
-            url: 'https://petstore.swagger.io/v2/pet',
+            url: petData.baseUrl,
             body: bodyPayload,
             headers: headersPayload
         }).then((response) => {
@@ -49,7 +49,7 @@ context('Pet Tests',() =>{
 
         cy.request({
             method: 'PUT',
-            url: 'https://petstore.swagger.io/v2/pet',
+            url: petData.baseUrl,
             body: bodyPayload,
             headers: headersPayload
         }).then((response) => {
@@ -59,7 +59,8 @@ context('Pet Tests',() =>{
     })
 
     it('DELETE - /v2/pet/id DeletePet', () => {
-        cy.request('GET','https://petstore.swagger.io/v2/pet/'+petDeleteData.id)
+        cy.wait(1000);
+        cy.request('GET',petData.baseUrl+petDeleteData.id)
         .then((response) =>{
             expect(response.status).to.eq(200);
         });

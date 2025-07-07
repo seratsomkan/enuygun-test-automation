@@ -1,3 +1,7 @@
+export const petData = {
+  "baseUrl": "https://petstore.swagger.io/v2/pet/"
+}
+
 export const petGetData = {
   "id": 12
 }
